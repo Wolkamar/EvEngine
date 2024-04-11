@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>Z:\Learning\EvEngine\EvEngine\x64\Debug\EvEngine.exe</FullPath>
+      <FullPath>D:\EvEngine\x64\Debug\EvEngine.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
