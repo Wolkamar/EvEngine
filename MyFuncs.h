@@ -1,4 +1,4 @@
-#include <string>
+/*#include <string>
 
 int getNum()
 {
@@ -13,4 +13,4 @@ std::string str(int x)
 std::string str(double x)
 {
 	return std::to_string(x);
-}
+}*/

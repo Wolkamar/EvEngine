@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <vector>
 #include <fstream>
 #include "MyFuncs.h"
@@ -143,6 +143,14 @@ public:
         m_pivo.push_back(s);
     }
 
+    void deletePivo()
+    {
+        for (Pivo* p : m_pivo)
+        {
+            delete p;
+        }
+    }
+
     std::vector<Student> &getStudents()
     {
         return m_students;
@@ -188,7 +196,7 @@ public:
     }
 };
 
-/*int main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
 
     Course c("comp404");
@@ -215,6 +223,9 @@ public:
         p[0].print();
     }
 
-    
-    return 0;
+    c.deletePivo();
+
+    int code;
+    std::cin >> code;
+    return code;
 }*/

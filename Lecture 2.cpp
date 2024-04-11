@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <memory>
 
 template <class T>
@@ -67,4 +67,4 @@ int main(int argc, char* argv[])
 	print(arr);
 
 	return 0;
-}
+}*/
