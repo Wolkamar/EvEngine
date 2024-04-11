@@ -1,4 +1,4 @@
-/*#include <iostream>
+#include <iostream>
 #include <vector>
 #include <fstream>
 #include "MyFuncs.h"
@@ -193,10 +193,11 @@ public:
     ~Course()
     {
         std::cout << "C destruct\n";
+        deletePivo();
     }
 };
 
-int main(int argc, char* argv[])
+int humain(int argc, char* argv[])
 {
 
     Course c("comp404");
@@ -223,9 +224,8 @@ int main(int argc, char* argv[])
         p[0].print();
     }
 
-    c.deletePivo();
+     //c.deletePivo();
 
-    int code;
-    std::cin >> code;
-    return code;
-}*/
+
+    return 0;
+}

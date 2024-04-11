@@ -1,10 +1,30 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <fstream>
+
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    const int width = 800;
+    const int height = 600;
+    sf::RenderWindow window(sf::VideoMode(width, height), "SFML works!");
+
+    sf::CircleShape circle(100.f);
+    circle.setFillColor(sf::Color::Red);
+    circle.setPosition(400.f-100, 300.f-100);
+    float circleMoveSpeedx = -0.1f;
+    float circleMoveSpeedy = -0.1f;
+    sf::Font Myfont;
+    if (!Myfont.loadFromFile("font.ttf"))
+    {
+        std::cerr << ":(";
+        exit(-1);
+    }
+
+    sf::Text text("Text", Myfont, 50);
+
+    text.setPosition(300, height - (float)text.getCharacterSize()-30);
+
 
     while (window.isOpen())
     {
@@ -14,9 +34,25 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+        sf::Vector2f previousPosition = circle.getPosition();
+        sf::Vector2f moveVector(circleMoveSpeedx, circleMoveSpeedy);
+        sf::Vector2f newPosition = previousPosition + moveVector;
 
+        circle.setPosition(newPosition);
+        
+
+        if (circle.getPosition().x <= 0 || circle.getPosition().x >= width - 200)
+        {
+            circleMoveSpeedx = -circleMoveSpeedx;
+        }
+        if (circle.getPosition().y <=0 || circle.getPosition().y >= height - 200)
+        {
+            circleMoveSpeedy = -circleMoveSpeedy;
+        }
+        text.setPosition(circle.getPosition().x+100, circle.getPosition().y+100);
         window.clear();
-        window.draw(shape);
+        window.draw(circle);
+        window.draw(text);
         window.display();
     }
 
