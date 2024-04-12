@@ -1,7 +1,9 @@
-﻿  assignment1.cpp
+﻿  Assignment 1 Roma.cpp
+D:\EvEngine\Assignment 1 Roma.cpp(354,22): warning C4244: инициализация: преобразование "unsigned int" в "float", возможна потеря данных
+D:\EvEngine\Assignment 1 Roma.cpp(379,22): warning C4244: инициализация: преобразование "unsigned int" в "float", возможна потеря данных
   Создание кода
-  1 of 206 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
+  0 of 434 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
-  EvEngine.vcxproj -> Z:\Learning\EvEngine\Release\EvEngine.exe
+  EvEngine.vcxproj -> D:\EvEngine\Release\EvEngine.exe

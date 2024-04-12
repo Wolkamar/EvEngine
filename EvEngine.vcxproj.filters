@@ -21,10 +21,13 @@
     <ClCompile Include="Lecture 2.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="assignment1.cpp">
+    <ClCompile Include="Assignment 1.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Lecture 2 Vlad.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Assignment 1 Roma.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
