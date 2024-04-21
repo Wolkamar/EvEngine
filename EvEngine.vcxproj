@@ -163,6 +163,12 @@
   <ItemGroup>
     <ClCompile Include="Assignment 1 Roma.cpp" />
     <ClCompile Include="Assignment 1.cpp" />
+    <ClCompile Include="CBBox.cpp" />
+    <ClCompile Include="CName.cpp" />
+    <ClCompile Include="CShape.cpp" />
+    <ClCompile Include="CTransform.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Lecture 2.cpp" />
     <ClCompile Include="Lecture 1.cpp" />
     <ClCompile Include="Lecture 2 Vlad.cpp" />
