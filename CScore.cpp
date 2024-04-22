@@ -1,4 +1,0 @@
-class CScore
-{
-	int score;
-};

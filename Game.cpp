@@ -1,30 +1,23 @@
-#include "SFML/Graphics.hpp"
+#include "Game.h"
 
-class Game
-{
-	sf::RenderWindow	m_window;
-	//EntityManager		m_entities;
-	//Entity				m_player;
-	bool				m_paused;
-	bool				m_running;
+void Game::init() {}
 
-	void init()
+void Game::sMovement() {}
+void Game::sUserInput() {}
+void Game::sRender() {}
+void Game::sEnemySpawner() {}
+void Game::sCollision() {}
+
+void Game::update() {}
+
+// future collision check
+/*
+	bool collision(CCollider& collider)
 	{
-
+		Vec2 diff = collider.transform.pos - transform.pos;
+		return (pow(diff.x, 2) + pow(diff.y, 2)) < pow(radius + collider.radius, 2);
 	}
-
-	void sMovement() {}
-	void sUserInput() {}
-	void sRender() {}
-	void sEnemySpawner() {}
-	void sCollision() {}
-
-public:
-	void update()
-	{
-
-	}
-};
+*/
 
 //order
 /*

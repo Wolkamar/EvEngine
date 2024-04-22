@@ -163,13 +163,13 @@
   <ItemGroup>
     <ClCompile Include="Assignment 1 Roma.cpp" />
     <ClCompile Include="Assignment 1.cpp" />
-    <ClCompile Include="CCollider.cpp" />
-    <ClCompile Include="CInput.cpp" />
-    <ClCompile Include="CLifespan.cpp" />
-    <ClCompile Include="CName.cpp" />
-    <ClCompile Include="CScore.cpp" />
-    <ClCompile Include="CShape.cpp" />
-    <ClCompile Include="CTransform.cpp" />
+    <ClCompile Include="CCollider.h" />
+    <ClCompile Include="CInput.h" />
+    <ClCompile Include="CLifespan.h" />
+    <ClCompile Include="CName.h" />
+    <ClCompile Include="CScore.h" />
+    <ClCompile Include="CShape.h" />
+    <ClCompile Include="CTransform.h" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -180,8 +180,14 @@
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="Components.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="MyFuncs.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

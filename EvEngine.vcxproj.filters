@@ -33,16 +33,16 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="CTransform.cpp">
+    <ClCompile Include="CTransform.h">
       <Filter>Исходные файлы\Components</Filter>
     </ClCompile>
-    <ClCompile Include="CName.cpp">
+    <ClCompile Include="CName.h">
       <Filter>Исходные файлы\Components</Filter>
     </ClCompile>
-    <ClCompile Include="CShape.cpp">
+    <ClCompile Include="CShape.h">
       <Filter>Исходные файлы\Components</Filter>
     </ClCompile>
-    <ClCompile Include="CCollider.cpp">
+    <ClCompile Include="CCollider.h">
       <Filter>Исходные файлы\Components</Filter>
     </ClCompile>
     <ClCompile Include="Assignment 1 Roma.cpp">
@@ -60,13 +60,13 @@
     <ClCompile Include="Lecture 2.cpp">
       <Filter>Исходные файлы\Lectures shit</Filter>
     </ClCompile>
-    <ClCompile Include="CScore.cpp">
+    <ClCompile Include="CScore.h">
       <Filter>Исходные файлы\Components</Filter>
     </ClCompile>
-    <ClCompile Include="CInput.cpp">
+    <ClCompile Include="CInput.h">
       <Filter>Исходные файлы\Components</Filter>
     </ClCompile>
-    <ClCompile Include="CLifespan.cpp">
+    <ClCompile Include="CLifespan.h">
       <Filter>Исходные файлы\Components</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
@@ -74,11 +74,29 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Utils.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="MyFuncs.h">
       <Filter>Исходные файлы\Lectures shit</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Components.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec2.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

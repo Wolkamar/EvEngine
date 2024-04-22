@@ -1,76 +1,159 @@
-#include <iostream>
+#include "Vec2.h"
 
-class Vec2
+Vec2::Vec2(float xin, float yin)
+	: x(xin), y(yin) {}
+
+float Vec2::distTo(Vec2 target)
 {
-public:
-	double x = 0;
-	double y = 0;
+	Vec2 diff = target - *this;
+	return sqrtf(powf(diff.x, 2) + powf(diff.y, 2));
+}
 
-	Vec2() {}
-	Vec2(double xin, double yin)
-		: x(xin), y(yin) {}
+float Vec2::angleTo(const Vec2& target)
+{
+	return atan2f(target.y, target.x);
+}
 
-	double distTo(Vec2 target)
-	{
-		Vec2 diff = target - *this;
-		return sqrtf(powf(diff.x, 2) + powf(diff.y, 2));
-	}
+float Vec2::length()
+{
+	return sqrtf(powf(x, 2) + powf(y, 2));
+}
 
-	double angleTo(const Vec2& target)
-	{
-		return atan2f(target.y, target.x);
-	}
+void Vec2::normalize()
+{
+	float len = length();
+	x /= len;
+	y /= len;
+}
 
-	double length()
-	{
-		return sqrtf(powf(x, 2) + powf(y, 2));
-	}
+const Vec2& Vec2::normalized()
+{
+	float len = length();
+	return Vec2(x / len, y / len);
+}
 
-	// NORMALIZE this vector
-	void normalize()
-	{
-		double len = length();
-		x /= len;
-		y /= len;
-	}
+void Vec2::print() const
+{
+	std::cout << "(" << x << ", " << y << ")\n";
+}
 
-	// get NORMALIZED copy of this vector
-	const Vec2& normalized()
-	{
-		double len = length();
-		return Vec2(x / len, y / len);
-	}
+//scaling
+Vec2& Vec2::scaleByVector(const Vec2& vector)
+{
+	x *= vector.x; y *= vector.y; return *this;
+}
+Vec2& Vec2::scale(float scale)
+{
+	x *= scale; y *= scale; return *this;
+}
+//adding
+Vec2& Vec2::addVector(const Vec2& vector)
+{
+	x += vector.x; y += vector.y; return *this;
+}
+Vec2& Vec2::add(float val)
+{
+	x += val; y += val; return *this;
+}
 
-	Vec2& scale		(double scale)		{ x *= scale; y *= scale; return *this; }
-	Vec2& add		(double val)		{ x += val; y += val; return *this; }
+//addition operators	--------------------
+	//by vector
+Vec2 Vec2::operator + (const Vec2& rhs) const
+{
+	return Vec2(x + rhs.x, y + rhs.y);
+}
+void Vec2::operator += (const Vec2& rhs)
+{
+	x += rhs.x;
+	y += rhs.y;
+}
+	//by value
+Vec2 Vec2::operator + (float val) const
+{
+	return Vec2(x + val, y + val);
+}
+void Vec2::operator += (float val)
+{
+	x += val;
+	y += val;
+}
+//----------------------------------------
+//subsctraction operators	--------------------
+	//by vector
+Vec2 Vec2::operator - (const Vec2& rhs) const
+{
+	return Vec2(x - rhs.x, y - rhs.y);
+}
+void Vec2::operator -= (const Vec2& rhs)
+{
+	x -= rhs.x;
+	y -= rhs.y;
+}
+	//by value
+Vec2 Vec2::operator - (float val) const
+{
+	return Vec2(x - val, y - val);
+}
+void Vec2::operator -= (float val)
+{
+	x -= val;
+	y -= val;
+}
+//----------------------------------------
 
-	Vec2 operator + (const Vec2& rhs)	{ return Vec2(x + rhs.x, y + rhs.y); }
-	Vec2 operator + (double val)		{ return Vec2(x + val, y + val); }
+//multiplication operators	--------------------
+	//by vector
+Vec2 Vec2::operator * (const Vec2& rhs) const
+{
+	return Vec2(x * rhs.x, y * rhs.y);
+}
+void Vec2::operator *= (const Vec2& rhs)
+{
+	x *= rhs.x;
+	y *= rhs.y;
+}
+	//by value
+Vec2 Vec2::operator * (float val) const
+{
+	return Vec2(x * val, y * val);
+}
+void Vec2::operator *= (float val)
+{
+	x *= val;
+	y *= val;
+}
+//----------------------------------------
 
-	Vec2 operator - (const Vec2& rhs)	{ return Vec2(x - rhs.x, y - rhs.y); }
-	Vec2 operator - (double val)		{ return Vec2(x - val, y - val); }
+//division operators		--------------------
+	//by vector
+Vec2 Vec2::operator / (const Vec2& rhs) const
+{
+	return Vec2(x / rhs.x, y / rhs.y);
+}
+void Vec2::operator /= (const Vec2& rhs)
+{
+	x /= rhs.x;
+	y /= rhs.y;
+}
+	//by value
+Vec2 Vec2::operator / (float val) const
+{
+	return Vec2(x / val, y / val);
+}
+void Vec2::operator /= (float val)
+{
+	x /= val;
+	y /= val;
+}
+//----------------------------------------
 
-	Vec2 operator * (const Vec2& rhs)	{ return Vec2(x * rhs.x, y * rhs.y); }
-	Vec2 operator * (double scale)		{ return Vec2(x * scale, y * scale); }
-
-	Vec2 operator / (const Vec2& rhs)	{ return Vec2(x / rhs.x, y / rhs.y); }
-	Vec2 operator / (double scale)		{ return Vec2(x / scale, y / scale); }
-
-	bool operator == (const Vec2& rhs)	{ return x == rhs.x && y == rhs.y; }
-	bool operator != (const Vec2& rhs)	{ return x != rhs.x || y != rhs.y; }
-
-	void print()
-	{
-		std::cout << "(" << x << ", " << y << ")\n";
-	}
-
-	friend std::ostream& operator <<(std::ostream& stream, const Vec2& vector)
-	{
-		return stream << "(" << vector.x << ", " << vector.y << ")";
-	}
-};
-
-/*
-	Vector Subsctraction: Destination - Origin = Distance
-	Vector Addition: Origin + Distance = Destination
-*/
+//compare operators			--------------------
+bool Vec2::operator == (const Vec2& rhs) const
+{
+	return x == rhs.x && y == rhs.y;
+}
+bool Vec2::operator != (const Vec2& rhs) const
+{
+	return x != rhs.x || y != rhs.y;
+}
+//----------------------------------------
