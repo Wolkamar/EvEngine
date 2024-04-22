@@ -16,23 +16,11 @@
     <Filter Include="Исходные файлы\Components">
       <UniqueIdentifier>{fbd0d5a1-0d1f-4939-81a8-02c0dc525884}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\Lectures shit">
+      <UniqueIdentifier>{14015706-a94e-4a14-b5d2-b64ce621e59d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Lecture 1.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Lecture 2.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Assignment 1.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Lecture 2 Vlad.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Assignment 1 Roma.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Vec2.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -54,13 +42,43 @@
     <ClCompile Include="CShape.cpp">
       <Filter>Исходные файлы\Components</Filter>
     </ClCompile>
-    <ClCompile Include="CBBox.cpp">
+    <ClCompile Include="CCollider.cpp">
       <Filter>Исходные файлы\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Assignment 1 Roma.cpp">
+      <Filter>Исходные файлы\Lectures shit</Filter>
+    </ClCompile>
+    <ClCompile Include="Assignment 1.cpp">
+      <Filter>Исходные файлы\Lectures shit</Filter>
+    </ClCompile>
+    <ClCompile Include="Lecture 1.cpp">
+      <Filter>Исходные файлы\Lectures shit</Filter>
+    </ClCompile>
+    <ClCompile Include="Lecture 2 Vlad.cpp">
+      <Filter>Исходные файлы\Lectures shit</Filter>
+    </ClCompile>
+    <ClCompile Include="Lecture 2.cpp">
+      <Filter>Исходные файлы\Lectures shit</Filter>
+    </ClCompile>
+    <ClCompile Include="CScore.cpp">
+      <Filter>Исходные файлы\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CInput.cpp">
+      <Filter>Исходные файлы\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CLifespan.cpp">
+      <Filter>Исходные файлы\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Utils.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
     <ClInclude Include="MyFuncs.h">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Исходные файлы\Lectures shit</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

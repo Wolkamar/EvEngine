@@ -1,0 +1,4 @@
+class CScore
+{
+	int score;
+};

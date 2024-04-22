@@ -163,12 +163,16 @@
   <ItemGroup>
     <ClCompile Include="Assignment 1 Roma.cpp" />
     <ClCompile Include="Assignment 1.cpp" />
-    <ClCompile Include="CBBox.cpp" />
+    <ClCompile Include="CCollider.cpp" />
+    <ClCompile Include="CInput.cpp" />
+    <ClCompile Include="CLifespan.cpp" />
     <ClCompile Include="CName.cpp" />
+    <ClCompile Include="CScore.cpp" />
     <ClCompile Include="CShape.cpp" />
     <ClCompile Include="CTransform.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Lecture 2.cpp" />
     <ClCompile Include="Lecture 1.cpp" />
     <ClCompile Include="Lecture 2 Vlad.cpp" />
@@ -177,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyFuncs.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
