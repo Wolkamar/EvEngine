@@ -9,6 +9,12 @@ float Vec2::distTo(Vec2 target)
 	return sqrtf(powf(diff.x, 2) + powf(diff.y, 2));
 }
 
+float Vec2::sqDistTo(Vec2 target)
+{
+	Vec2 diff = target - *this;
+	return (powf(diff.x, 2) + powf(diff.y, 2));
+}
+
 float Vec2::angleTo(const Vec2& target)
 {
 	return atan2f(target.y, target.x);

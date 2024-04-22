@@ -1,23 +1,320 @@
 #include "Game.h"
 
-void Game::init() {}
+Game::Game(const std::string& cfgFilePath)
+{
+	init(cfgFilePath);
+}
 
-void Game::sMovement() {}
-void Game::sUserInput() {}
-void Game::sRender() {}
-void Game::sEnemySpawner() {}
-void Game::sCollision() {}
+void Game::init(const std::string& cfgFilePath)
+{
+	std::ifstream fin(cfgFilePath);
+	std::string lineHead;
 
-void Game::update() {}
+	fin >> lineHead;
 
-// future collision check
-/*
-	bool collision(CCollider& collider)
+	if (lineHead != "Window") std::cerr << "Unable to read Window parameters";
+
+	int wWidth, wHeight, frameLimit;
+	bool fullScreen;
+
+	fin >> wWidth >> wHeight >> frameLimit >> fullScreen;
+
+	if (fullScreen)
 	{
-		Vec2 diff = collider.transform.pos - transform.pos;
-		return (pow(diff.x, 2) + pow(diff.y, 2)) < pow(radius + collider.radius, 2);
+		m_window.create(sf::VideoMode(wWidth, wHeight), "Assignment 2", sf::Style::Fullscreen);
 	}
-*/
+	else
+	{
+		m_window.create(sf::VideoMode(wWidth, wHeight), "Assignment 2");
+	}
+
+	m_window.setFramerateLimit(frameLimit);
+
+	fin >> lineHead;
+
+	if (lineHead != "Font") std::cerr << "Unable to read Font parameters";
+
+	std::string fontPath;
+	int fontSize, fontR, fontG, fontB;
+
+	fin >> fontPath >> fontSize >> fontR >> fontG >> fontB;
+
+	m_font = sf::Font();
+	m_font.loadFromFile(fontPath);
+
+	m_text = sf::Text("Score: 0", m_font, fontSize);
+	m_text.setColor(sf::Color(fontR, fontB, fontB));
+
+	fin >> lineHead;
+
+	if (lineHead != "Player") std::cerr << "Unable to read Player parameters";
+
+	fin >> m_playerCfg.SR >> m_playerCfg.CR >> m_playerCfg.S >> m_playerCfg.FR
+		>> m_playerCfg.FG >> m_playerCfg.FB >> m_playerCfg.OR >> m_playerCfg.OG
+		>> m_playerCfg.OB >> m_playerCfg.OT >> m_playerCfg.V;
+
+	fin >> lineHead;
+
+	if (lineHead != "Enemy") std::cerr << "Unable to read Enemy parameters";
+
+	fin >> m_enemyCfg.SR >> m_enemyCfg.CR >> m_enemyCfg.SMIN >> m_enemyCfg.SMAX
+		>> m_enemyCfg.OR >> m_enemyCfg.OG >> m_enemyCfg.OB >> m_enemyCfg.OT
+		>> m_enemyCfg.VMIN >> m_enemyCfg.VMAX >> m_enemyCfg.L >> m_enemyCfg.SI;
+
+	fin >> lineHead;
+
+	if (lineHead != "Bullet") std::cerr << "Unable to read Bullet parameters";
+
+	fin >> m_bulletCfg.SR >> m_bulletCfg.CR >> m_bulletCfg.S >> m_bulletCfg.FR
+		>> m_bulletCfg.FG >> m_bulletCfg.FB >> m_bulletCfg.OR >> m_bulletCfg.OG
+		>> m_bulletCfg.OB >> m_bulletCfg.OT >> m_bulletCfg.V >> m_bulletCfg.L;
+
+	spawnPlayer();
+}
+
+void Game::run()
+{
+	while (m_running)
+	{
+		m_entities.update();
+
+		if (!m_paused)
+		{
+			sEnemySpawner();
+			sMovement();
+			sCollision();
+			sUserInput();
+
+			m_currentFrame++;
+		}
+
+		sRender();
+	}
+}
+
+void Game::setPaused(bool paused)
+{
+	m_paused = paused;
+}
+
+void Game::sMovement()
+{
+	Vec2 playerVelocity(0, 0);
+
+	if (m_player->cInput->right) playerVelocity.x += 1.f;
+	if (m_player->cInput->left) playerVelocity.x -= 1.f;
+	if (m_player->cInput->up) playerVelocity.y += 1.f;
+	if (m_player->cInput->down) playerVelocity.y -= 1.f;
+
+	m_player->cTransform->velocity = playerVelocity.normalized() * m_playerCfg.S;
+
+	m_player->cTransform->pos += m_player->cTransform->velocity;
+
+	//
+}
+void Game::sUserInput()
+{
+	sf::Event event;
+
+	while (m_window.pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed)
+		{
+			m_running = false;
+		}
+
+		if (event.type == sf::Event::KeyPressed)
+		{
+			switch (event.key.code)
+			{
+			case sf::Keyboard::W:
+				for (auto& p : m_entities.getEntities("Player")) p->cInput->up = true;
+				break;
+			case sf::Keyboard::A:
+				for (auto& p : m_entities.getEntities("Player")) p->cInput->left = true;
+				break;
+			case sf::Keyboard::S:
+				for (auto& p : m_entities.getEntities("Player")) p->cInput->down = true;
+				break;
+			case sf::Keyboard::D:
+				for (auto& p : m_entities.getEntities("Player")) p->cInput->right = true;
+				break;
+			}
+		}
+
+		if (event.type == sf::Event::KeyReleased)
+		{
+			switch (event.key.code)
+			{
+			case sf::Keyboard::W:
+				for (auto& p : m_entities.getEntities("Player")) p->cInput->up = false;
+				break;
+			case sf::Keyboard::A:
+				for (auto& p : m_entities.getEntities("Player")) p->cInput->left = false;
+				break;
+			case sf::Keyboard::S:
+				for (auto& p : m_entities.getEntities("Player")) p->cInput->down = false;
+				break;
+			case sf::Keyboard::D:
+				for (auto& p : m_entities.getEntities("Player")) p->cInput->right = false;
+				break;
+			}
+		}
+
+		if (event.type == sf::Event::MouseButtonPressed)
+		{
+			switch (event.mouseButton.button)
+			{
+			case sf::Mouse::Left:
+				for (auto& p : m_entities.getEntities("Player"))
+				{
+					spawnBullet(p, Vec2(event.mouseButton.x, event.mouseButton.y));
+				}
+				break;
+			case sf::Mouse::Right:
+				for (auto& p : m_entities.getEntities("Player"))
+				{
+					spawnSpecialWeapon(p, Vec2(event.mouseButton.x, event.mouseButton.y));
+				}
+				break;
+			}
+		}
+	}
+}
+void Game::sLifespan()
+{
+	for (auto& e : m_entities.getEntities())
+	{
+		if (!e->cLifespan) continue;
+
+		if (e->cLifespan->remaining > 0)
+		{
+			e->cLifespan->remaining--;
+
+			sf::Color fillColor = e->cShape->circle.getFillColor();
+			fillColor.a = 255 * (e->cLifespan->remaining / e->cLifespan->total);
+			e->cShape->circle.setFillColor(fillColor);
+
+			sf::Color outlineColor = e->cShape->circle.getOutlineColor();
+			outlineColor.a = 255 * (e->cLifespan->remaining / e->cLifespan->total);
+			e->cShape->circle.setOutlineColor(outlineColor);
+		}
+		else
+		{
+			e->kill();
+		}
+	}
+}
+void Game::sEnemySpawner()
+{
+	if (++m_framesSinceLastEnemySpawn >= m_enemyCfg.SI)
+	{
+		//
+
+		m_framesSinceLastEnemySpawn = 0;
+	}
+}
+
+void Game::sCollision()
+{
+	for (auto& p : m_entities.getEntities("Player"))
+	{
+		for (auto& e : m_entities.getEntities("Enemy"))
+		{
+			if (areCollide(p, e))
+			{
+				//
+			}
+		}
+		for (auto& se : m_entities.getEntities("SmallEnemy"))
+		{
+			if (areCollide(p, se))
+			{
+				//
+			}
+		}
+	}
+
+	for (auto& p : m_entities.getEntities("Bullet"))
+	{
+		for (auto& e : m_entities.getEntities("Enemy"))
+		{
+			if (areCollide(p, e))
+			{
+				//
+			}
+		}
+		for (auto& se : m_entities.getEntities("SmallEnemy"))
+		{
+			if (areCollide(p, se))
+			{
+				//
+			}
+		}
+	}
+
+	for (auto& e : m_entities.getEntities())
+	{
+		if (e->cTransform->pos.x - e->cCollider->radius / 2 <= 0 ||
+			e->cTransform->pos.x + e->cCollider->radius / 2 >= m_window.getSize().x)
+		{
+			e->cTransform->velocity.x *= -1.f;
+		}
+		if (e->cTransform->pos.y - e->cCollider->radius / 2 <= 0 ||
+			e->cTransform->pos.y + e->cCollider->radius / 2 >= m_window.getSize().y)
+		{
+			e->cTransform->velocity.y *= -1.f;
+		}
+	}
+}
+
+void Game::sRender()
+{
+	m_window.clear();
+
+	for (auto& e : m_entities.getEntities())
+	{
+		e->cShape->circle.setPosition(e->cTransform->pos.x, e->cTransform->pos.y);
+
+		e->cTransform->angle += 3.f;
+		e->cShape->circle.setRotation(e->cTransform->angle);
+
+		m_window.draw(e->cShape->circle);
+	}
+
+	m_window.display();
+}
+
+void Game::spawnPlayer()
+{
+	auto entity = m_entities.addEntity("Player");
+
+	//
+
+	m_player = entity;
+}
+void Game::spawnEnemy()
+{
+	//
+
+	m_framesSinceLastEnemySpawn = 0;
+}
+void Game::spawnSmallEnemies(std::shared_ptr<Entity> entity)
+{
+	int vertices = entity->cShape->circle.getPointCount();
+
+	//
+}
+void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target)
+{
+	Vec2 velocity = (target - m_player->cTransform->pos).normalized() * m_bulletCfg.S;
+
+	//
+}
+void Game::spawnSpecialWeapon(std::shared_ptr<Entity> entity, const Vec2& target)
+{
+	//
+}
 
 //order
 /*

@@ -13,6 +13,7 @@ public:
 	Vec2(float xin, float yin);
 
 	float distTo(Vec2 target); // get distance vector from this to target vector
+	float sqDistTo(Vec2 target); // get squared distance vector from this to target vector
 
 	float angleTo(const Vec2& target); // get this vector angle to target vector)
 

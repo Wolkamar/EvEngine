@@ -1,4 +1,7 @@
+#include "Game.h"
+
 int main()
 {
-	return 0;
+	Game g("a2config.txt");
+	g.run();
 }
