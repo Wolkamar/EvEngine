@@ -183,6 +183,7 @@
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="Components.h" />
+    <ClInclude Include="CSpecialWeapon.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Game.h" />

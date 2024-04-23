@@ -7,3 +7,4 @@
 #include "CScore.h"
 #include "CShape.h"
 #include "CTransform.h"
+#include "CSpecialWeapon.h"

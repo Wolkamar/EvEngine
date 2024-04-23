@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 class Vec2
 {
@@ -24,6 +24,9 @@ public:
 	const Vec2& normalized(); // get NORMALIZED copy of this vector
 
 	void print() const;
+
+	Vec2& rotateByDegrees(float degrees); // ROTATE this vector
+	const Vec2& rotatedByDegrees(float degrees); // get ROTATED copy of this vector
 
 	Vec2& scaleByVector	(const Vec2& vector);
 	Vec2& scale			(float scale);

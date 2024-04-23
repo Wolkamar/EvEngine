@@ -6,7 +6,7 @@ Vec2::Vec2(float xin, float yin)
 float Vec2::distTo(Vec2 target)
 {
 	Vec2 diff = target - *this;
-	return sqrtf(powf(diff.x, 2) + powf(diff.y, 2));
+	return diff.length();
 }
 
 float Vec2::sqDistTo(Vec2 target)
@@ -17,7 +17,9 @@ float Vec2::sqDistTo(Vec2 target)
 
 float Vec2::angleTo(const Vec2& target)
 {
-	return atan2f(target.y, target.x);
+	const float pi = atan(1) * 4;
+	Vec2 diff = target - *this;
+	return -atan2f(diff.y, diff.x) * 180.f / pi;
 }
 
 float Vec2::length()
@@ -28,8 +30,11 @@ float Vec2::length()
 void Vec2::normalize()
 {
 	float len = length();
-	x /= len;
-	y /= len;
+	if (len > 0)
+	{
+		x /= len;
+		y /= len;
+	}
 }
 
 const Vec2& Vec2::normalized()
@@ -41,6 +46,28 @@ const Vec2& Vec2::normalized()
 void Vec2::print() const
 {
 	std::cout << "(" << x << ", " << y << ")\n";
+}
+
+//rotating
+Vec2& Vec2::rotateByDegrees(float degrees)
+{
+	const float pi = atan(1) * 4;
+	float newX = cos(-degrees * pi / 180.f) * x - sin(-degrees * pi / 180.f) * y;
+	float newY = sin(-degrees * pi / 180.f) * x + cos(-degrees * pi / 180.f) * y;
+
+	x = newX;
+	y = newY;
+
+	return *this;
+}
+
+const Vec2& Vec2::rotatedByDegrees(float degrees)
+{
+	const float pi = atan(1) * 4;
+	float newX = cos(-degrees * pi / 180.f) * x - sin(-degrees * pi / 180.f) * y;
+	float newY = sin(-degrees * pi / 180.f) * x + cos(-degrees * pi / 180.f) * y;
+
+	return Vec2(newX, newY);
 }
 
 //scaling
@@ -73,7 +100,7 @@ void Vec2::operator += (const Vec2& rhs)
 	x += rhs.x;
 	y += rhs.y;
 }
-	//by value
+//by value
 Vec2 Vec2::operator + (float val) const
 {
 	return Vec2(x + val, y + val);
@@ -95,7 +122,7 @@ void Vec2::operator -= (const Vec2& rhs)
 	x -= rhs.x;
 	y -= rhs.y;
 }
-	//by value
+//by value
 Vec2 Vec2::operator - (float val) const
 {
 	return Vec2(x - val, y - val);
@@ -118,7 +145,7 @@ void Vec2::operator *= (const Vec2& rhs)
 	x *= rhs.x;
 	y *= rhs.y;
 }
-	//by value
+//by value
 Vec2 Vec2::operator * (float val) const
 {
 	return Vec2(x * val, y * val);
@@ -141,7 +168,7 @@ void Vec2::operator /= (const Vec2& rhs)
 	x /= rhs.x;
 	y /= rhs.y;
 }
-	//by value
+//by value
 Vec2 Vec2::operator / (float val) const
 {
 	return Vec2(x / val, y / val);

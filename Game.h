@@ -26,7 +26,11 @@ class Game
 	std::shared_ptr<Entity> m_player;
 
 	void init(const std::string& cfgFilePath);
+
 	void setPaused(bool paused);
+	void togglePaused();
+
+	void exit();
 
 	void sMovement();
 	void sUserInput();
@@ -40,7 +44,7 @@ class Game
 	void spawnEnemy();
 	void spawnSmallEnemies(std::shared_ptr<Entity> entity);
 	void spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target);
-	void spawnSpecialWeapon(std::shared_ptr<Entity> entity, const Vec2& target);
+	void spawnSpecialWeapon(std::shared_ptr<Entity> entity);
 
 public:
 	Game(const std::string& cfgFilePath);

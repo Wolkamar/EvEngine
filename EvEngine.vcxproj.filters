@@ -101,5 +101,8 @@
     <ClInclude Include="Utils.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="CSpecialWeapon.h">
+      <Filter>Исходные файлы\Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
