@@ -43,7 +43,7 @@ void Game::init(const std::string& cfgFilePath)
 	m_font.loadFromFile(fontPath);
 
 	m_text = sf::Text("Score: 0", m_font, fontSize);
-	m_text.setColor(sf::Color(fontR, fontB, fontB));
+	m_text.setFillColor(sf::Color(fontR, fontB, fontB));
 
 	fin >> lineHead;
 
@@ -110,7 +110,10 @@ void Game::sMovement()
 
 	m_player->cTransform->pos += m_player->cTransform->velocity;
 
-	//
+	for (auto& e : m_entities.getEntities())
+	{
+		e->cTransform->pos += e->cTransform->velocity;
+	}
 }
 void Game::sUserInput()
 {
@@ -209,7 +212,7 @@ void Game::sEnemySpawner()
 {
 	if (++m_framesSinceLastEnemySpawn >= m_enemyCfg.SI)
 	{
-		//
+		spawnEnemy();
 
 		m_framesSinceLastEnemySpawn = 0;
 	}
@@ -221,34 +224,39 @@ void Game::sCollision()
 	{
 		for (auto& e : m_entities.getEntities("Enemy"))
 		{
-			if (areCollide(p, e))
+			if (Utils::areCollide(p, e))
 			{
-				//
+				resetPlayerPos();
 			}
 		}
 		for (auto& se : m_entities.getEntities("SmallEnemy"))
 		{
-			if (areCollide(p, se))
+			if (Utils::areCollide(p, se))
 			{
-				//
+				resetPlayerPos();
 			}
 		}
 	}
 
-	for (auto& p : m_entities.getEntities("Bullet"))
+	for (auto& b : m_entities.getEntities("Bullet"))
 	{
 		for (auto& e : m_entities.getEntities("Enemy"))
 		{
-			if (areCollide(p, e))
+			if (Utils::areCollide(b, e))
 			{
-				//
+				m_player->cScore->score += e->cScore->score;
+				spawnSmallEnemies(e);
+				e->kill();
+				b->kill();
 			}
 		}
 		for (auto& se : m_entities.getEntities("SmallEnemy"))
 		{
-			if (areCollide(p, se))
+			if (Utils::areCollide(b, se))
 			{
-				//
+				m_player->cScore->score += se->cScore->score;
+				se->kill();
+				b->kill();
 			}
 		}
 	}
@@ -289,27 +297,119 @@ void Game::spawnPlayer()
 {
 	auto entity = m_entities.addEntity("Player");
 
-	//
+	sf::Color fillColor(m_playerCfg.FR, m_playerCfg.FG, m_playerCfg.FB);
+	sf::Color outlineColor(m_playerCfg.OR, m_playerCfg.OG, m_playerCfg.OB);
+
+	entity->cTransform = std::make_shared<CTransform>();
+
+	entity->cShape = std::make_shared<CShape>(m_playerCfg.SR, m_playerCfg.V, fillColor, outlineColor, m_playerCfg.OT);
+
+	entity->cCollider = std::make_shared<CCollider>(m_playerCfg.CR);
+
+	entity->cInput = std::make_shared<CInput>();
+
+	entity->cScore = std::make_shared<CScore>();
 
 	m_player = entity;
+
+	resetPlayerPos();
+}
+void Game::resetPlayerPos()
+{
+	m_player->cTransform->pos = Vec2(m_window.getSize().x / 2, m_window.getSize().y / 2);
 }
 void Game::spawnEnemy()
 {
-	//
+	auto entity = m_entities.addEntity("Enemy");
 
-	m_framesSinceLastEnemySpawn = 0;
+	const int collisionRadius = m_enemyCfg.CR;
+	const float randX = Utils::random(collisionRadius, m_window.getSize().x - collisionRadius);
+	const float randY = Utils::random(collisionRadius, m_window.getSize().y - collisionRadius);
+
+	const float randSpeedX = Utils::random(m_enemyCfg.SMIN, m_enemyCfg.SMAX);
+	const float randSpeedY = Utils::random(m_enemyCfg.SMIN, m_enemyCfg.SMAX);
+
+	entity->cTransform = std::make_shared<CTransform>(Vec2(randX, randY), Vec2(randSpeedX, randSpeedY));
+
+	const int randFillR = Utils::random(0, 255);
+	const int randFillG = Utils::random(0, 255);
+	const int randFillB = Utils::random(0, 255);
+
+	sf::Color fillColor(randFillR, randFillG, randFillB);
+
+	const int outlineR = m_enemyCfg.OR;
+	const int outlineG = m_enemyCfg.OG;
+	const int outlineB = m_enemyCfg.OB;
+
+	sf::Color outlineColor(outlineR, outlineG, outlineB);
+
+	const int vertices = Utils::random(m_enemyCfg.VMIN, m_enemyCfg.VMAX);
+
+	entity->cShape = std::make_shared<CShape>(m_enemyCfg.SR, vertices, fillColor, outlineColor, m_enemyCfg.OT);
+
+	entity->cCollider = std::make_shared<CCollider>(collisionRadius);
+
+	entity->cScore = std::make_shared<CScore>(vertices * 100);
 }
 void Game::spawnSmallEnemies(std::shared_ptr<Entity> entity)
 {
 	int vertices = entity->cShape->circle.getPointCount();
+	sf::Color fillColor = entity->cShape->circle.getFillColor();
+	sf::Color outlineColor = entity->cShape->circle.getOutlineColor();
 
-	//
+	auto smallEntity = m_entities.addEntity("SmallEnemy");
+
+	const int collisionRadius = m_enemyCfg.CR;
+
+	const float x = entity->cTransform->pos.x;
+	const float y = entity->cTransform->pos.y;
+
+	const float speedX = entity->cTransform->velocity.x;
+	const float speedY = entity->cTransform->velocity.y;
+
+	//handle angle here
+
+	smallEntity->cTransform = std::make_shared<CTransform>(Vec2(x, y), Vec2(speedX, speedY));
+
+	smallEntity->cShape = std::make_shared<CShape>(m_enemyCfg.SR / 2, vertices, fillColor, outlineColor, m_enemyCfg.OT);
+
+	smallEntity->cCollider = std::make_shared<CCollider>(collisionRadius / 2);
+
+	smallEntity->cScore = std::make_shared<CScore>(vertices * 100);
+
+	smallEntity->cLifespan = std::make_shared<CLifespan>(m_enemyCfg.L);
 }
 void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target)
 {
-	Vec2 velocity = (target - m_player->cTransform->pos).normalized() * m_bulletCfg.S;
+	Vec2 direction = (target - m_player->cTransform->pos).normalized();
+	Vec2 velocity = direction * m_bulletCfg.S;
+	Vec2 position = direction * entity->cCollider->radius;
 
-	//
+	auto bulletEntity = m_entities.addEntity("Bullet");
+
+	const int collisionRadius = m_bulletCfg.CR;
+
+	bulletEntity->cTransform = std::make_shared<CTransform>(position, velocity);
+
+	const int randFillR = m_bulletCfg.FR;
+	const int randFillG = m_bulletCfg.FG;
+	const int randFillB = m_bulletCfg.FB;
+
+	sf::Color fillColor(randFillR, randFillG, randFillB);
+
+	const int outlineR = m_bulletCfg.OR;
+	const int outlineG = m_bulletCfg.OG;
+	const int outlineB = m_bulletCfg.OB;
+
+	sf::Color outlineColor(outlineR, outlineG, outlineB);
+
+	const int vertices = entity->cShape->circle.getPointCount();
+
+	bulletEntity->cShape = std::make_shared<CShape>(m_bulletCfg.SR, vertices, fillColor, outlineColor, m_bulletCfg.OT);
+
+	bulletEntity->cCollider = std::make_shared<CCollider>(collisionRadius);
+
+	bulletEntity->cLifespan = std::make_shared<CLifespan>(m_bulletCfg.L);
 }
 void Game::spawnSpecialWeapon(std::shared_ptr<Entity> entity, const Vec2& target)
 {
@@ -369,8 +469,6 @@ void Game::spawnSpecialWeapon(std::shared_ptr<Entity> entity, const Vec2& target
 	amount = edges number
 	directions = edges
 	angles = 360/edges number
-	lifespan = ?
-	size = ?
 */
 
 //score

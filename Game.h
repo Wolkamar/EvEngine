@@ -36,6 +36,7 @@ class Game
 	void sRender();
 
 	void spawnPlayer();
+	void resetPlayerPos();
 	void spawnEnemy();
 	void spawnSmallEnemies(std::shared_ptr<Entity> entity);
 	void spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target);

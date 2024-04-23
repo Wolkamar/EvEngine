@@ -1,7 +1,18 @@
 D:\EvEngine\Assignment 1 Roma.cpp;D:\EvEngine\Release\Assignment 1 Roma.obj
 D:\EvEngine\Assignment 1.cpp;D:\EvEngine\Release\Assignment 1.obj
+D:\EvEngine\CCollider.h;D:\EvEngine\Release\CCollider.obj
+D:\EvEngine\CInput.h;D:\EvEngine\Release\CInput.obj
+D:\EvEngine\CLifespan.h;D:\EvEngine\Release\CLifespan.obj
+D:\EvEngine\CName.h;D:\EvEngine\Release\CName.obj
+D:\EvEngine\CScore.h;D:\EvEngine\Release\CScore.obj
+D:\EvEngine\CShape.h;D:\EvEngine\Release\CShape.obj
+D:\EvEngine\CTransform.h;D:\EvEngine\Release\CTransform.obj
+D:\EvEngine\Entity.cpp;D:\EvEngine\Release\Entity.obj
+D:\EvEngine\EntityManager.cpp;D:\EvEngine\Release\EntityManager.obj
+D:\EvEngine\Game.cpp;D:\EvEngine\Release\Game.obj
 D:\EvEngine\Lecture 2.cpp;D:\EvEngine\Release\Lecture 2.obj
 D:\EvEngine\Lecture 1.cpp;D:\EvEngine\Release\Lecture 1.obj
 D:\EvEngine\Lecture 2 Vlad.cpp;D:\EvEngine\Release\Lecture 2 Vlad.obj
 D:\EvEngine\main.cpp;D:\EvEngine\Release\main.obj
+D:\EvEngine\Utils.cpp;D:\EvEngine\Release\Utils.obj
 D:\EvEngine\Vec2.cpp;D:\EvEngine\Release\Vec2.obj

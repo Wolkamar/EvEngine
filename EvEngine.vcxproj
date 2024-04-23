@@ -177,6 +177,7 @@
     <ClCompile Include="Lecture 1.cpp" />
     <ClCompile Include="Lecture 2 Vlad.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Vec2.cpp" />
   </ItemGroup>
   <ItemGroup>

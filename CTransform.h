@@ -8,6 +8,9 @@ public:
 	float angle		= 0;
 	Vec2 scale		= { 1.0, 1.0 };
 
+	CTransform()
+		: pos(0, 0) {}
+
 	CTransform(const Vec2& p)
 		: pos(p) {}
 
