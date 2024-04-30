@@ -3,6 +3,9 @@
 Vec2::Vec2(float xin, float yin)
 	: x(xin), y(yin) {}
 
+Vec2::Vec2(const Vec2& vector)
+	: x(vector.x), y(vector.y) {}
+
 float Vec2::distTo(Vec2 target)
 {
 	Vec2 diff = target - *this;
@@ -54,6 +57,7 @@ Vec2& Vec2::rotateByDegrees(float degrees)
 	const float pi = atan(1) * 4;
 	float newX = cos(-degrees * pi / 180.f) * x - sin(-degrees * pi / 180.f) * y;
 	float newY = sin(-degrees * pi / 180.f) * x + cos(-degrees * pi / 180.f) * y;
+	//bug
 
 	x = newX;
 	y = newY;

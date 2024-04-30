@@ -38,12 +38,13 @@ class Game
 	void sEnemySpawner();
 	void sCollision();
 	void sRender();
+	void sSpecialWeapon();
 
 	void spawnPlayer();
 	void resetPlayerPos();
 	void spawnEnemy();
 	void spawnSmallEnemies(std::shared_ptr<Entity> entity);
-	void spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target);
+	void spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target, bool special);
 	void spawnSpecialWeapon(std::shared_ptr<Entity> entity);
 
 public:

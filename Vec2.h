@@ -11,6 +11,7 @@ public:
 
 	Vec2() {}
 	Vec2(float xin, float yin);
+	Vec2(const Vec2& vector);
 
 	float distTo(Vec2 target); // get distance vector from this to target vector
 	float sqDistTo(Vec2 target); // get squared distance vector from this to target vector

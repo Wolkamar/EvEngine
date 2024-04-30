@@ -88,6 +88,7 @@ void Game::run()
 			sCollision();
 			sMovement();
 			sLifespan();
+			sSpecialWeapon();
 
 			m_currentFrame++;
 		}
@@ -203,13 +204,13 @@ void Game::sUserInput()
 			case sf::Mouse::Left:
 				for (auto& p : m_entities.getEntities("Player"))
 				{
-					spawnBullet(p, Vec2(event.mouseButton.x, event.mouseButton.y));
+					spawnBullet(p, Vec2(event.mouseButton.x, event.mouseButton.y), false);
 				}
 				break;
 			case sf::Mouse::Right:
 				for (auto& p : m_entities.getEntities("Player"))
 				{
-					spawnSpecialWeapon(p);
+					if (p->cSpecialWeapon) spawnSpecialWeapon(p);
 				}
 				break;
 			}
@@ -229,8 +230,11 @@ void Game::sLifespan()
 			const float alpha = 255.f * ((float)e->cLifespan->remaining / (float)e->cLifespan->total);
 
 			sf::Color fillColor = e->cShape->circle.getFillColor();
-			fillColor.a = alpha;
-			e->cShape->circle.setFillColor(fillColor);
+			if (fillColor != sf::Color::Transparent)
+			{
+				fillColor.a = alpha;
+				e->cShape->circle.setFillColor(fillColor);
+			}
 
 			sf::Color outlineColor = e->cShape->circle.getOutlineColor();
 			outlineColor.a = alpha;
@@ -239,18 +243,6 @@ void Game::sLifespan()
 		else
 		{
 			e->kill();
-		}
-	}
-
-	for (auto& p : m_entities.getEntities("Player"))
-	{
-		if (p->cSpecialWeapon->fired && p->cSpecialWeapon->cooldownRemaining > 0)
-		{
-			p->cSpecialWeapon->cooldownRemaining--;
-		}
-		else
-		{
-			p->cSpecialWeapon->fired = false;
 		}
 	}
 }
@@ -274,12 +266,31 @@ void Game::sCollision()
 			{
 				resetPlayerPos();
 			}
+
+			if (p->enemyKillingArea)
+			{
+				if (Utils::areCollide(p->enemyKillingArea, e))
+				{
+					m_player->cScore->score += e->cScore->score;
+					spawnSmallEnemies(e);
+					e->kill();
+				}
+			}
 		}
 		for (auto& se : m_entities.getEntities("SmallEnemy"))
 		{
 			if (Utils::areCollide(p, se))
 			{
 				resetPlayerPos();
+			}
+
+			if (p->enemyKillingArea)
+			{
+				if (Utils::areCollide(p->enemyKillingArea, se))
+				{
+					m_player->cScore->score += se->cScore->score;
+					se->kill();
+				}
 			}
 		}
 	}
@@ -342,6 +353,62 @@ void Game::sRender()
 	m_window.draw(m_text);
 
 	m_window.display();
+}
+
+void Game::sSpecialWeapon()
+{
+	for (auto& p : m_entities.getEntities("Player"))
+	{
+		if (!p->cSpecialWeapon) continue;
+
+		if (p->cSpecialWeapon->firing)
+		{
+			p->enemyKillingArea->cTransform->pos.x = p->cTransform->pos.x;
+			p->enemyKillingArea->cTransform->pos.y = p->cTransform->pos.y;
+
+			if (p->cSpecialWeapon->numberOfShotsRemaining > 0)
+			{
+				if (p->cSpecialWeapon->fireDelayRemaining > 0)
+				{
+					p->cSpecialWeapon->fireDelayRemaining--;
+				}
+				else
+				{
+					int numberOfShots = p->cSpecialWeapon->numberOfShots;
+					Vec2 direction = Vec2(0.f, 5.f);
+					direction.rotateByDegrees(p->cTransform->angle);
+
+					for (size_t i = 0; i < numberOfShots; ++i)
+					{
+						float degrees = (float)i * (360.f / (float)numberOfShots);
+
+						spawnBullet(p, direction.rotatedByDegrees(degrees) + p->cTransform->pos, true);
+					}
+
+					p->cSpecialWeapon->numberOfShotsRemaining--;
+					p->cSpecialWeapon->fireDelayRemaining = p->cSpecialWeapon->fireDelay;
+				}
+			}
+			else
+			{
+				p->cSpecialWeapon->firing = false;
+				p->cSpecialWeapon->cooldownRemaining = p->cSpecialWeapon->cooldown;
+
+				p->enemyKillingArea = nullptr;
+			}
+		}
+		else
+		{
+			if (p->cSpecialWeapon->cooldownRemaining > 0)
+			{
+				p->cSpecialWeapon->cooldownRemaining--;
+			}
+			else
+			{
+				p->cSpecialWeapon->canFire = true;
+			}
+		}
+	}
 }
 
 void Game::spawnPlayer()
@@ -447,7 +514,7 @@ void Game::spawnSmallEnemies(std::shared_ptr<Entity> entity)
 		smallEntity->cLifespan = std::make_shared<CLifespan>(m_enemyCfg.L);
 	}
 }
-void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target)
+void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target, bool special)
 {
 	Vec2 direction = (target - m_player->cTransform->pos).normalized();
 	Vec2 velocity = direction * m_bulletCfg.S;
@@ -459,16 +526,26 @@ void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target)
 
 	bulletEntity->cTransform = std::make_shared<CTransform>(position, velocity);
 
-	const int randFillR = m_bulletCfg.FR;
-	const int randFillG = m_bulletCfg.FG;
-	const int randFillB = m_bulletCfg.FB;
+	int fillR = m_bulletCfg.FR;
+	int fillG = m_bulletCfg.FG;
+	int fillB = m_bulletCfg.FB;
 
-	sf::Color fillColor(randFillR, randFillG, randFillB);
+	int outlineR = m_bulletCfg.OR;
+	int outlineG = m_bulletCfg.OG;
+	int outlineB = m_bulletCfg.OB;
 
-	const int outlineR = m_bulletCfg.OR;
-	const int outlineG = m_bulletCfg.OG;
-	const int outlineB = m_bulletCfg.OB;
+	if (special)
+	{
+		fillR = 100;
+		fillG = 100;
+		fillB = 100;
 
+		outlineR = 150;
+		outlineG = 150;
+		outlineB = 150;
+	}
+
+	sf::Color fillColor(fillR, fillG, fillB);
 	sf::Color outlineColor(outlineR, outlineG, outlineB);
 
 	const int vertices = entity->cShape->circle.getPointCount();
@@ -481,12 +558,27 @@ void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2& target)
 }
 void Game::spawnSpecialWeapon(std::shared_ptr<Entity> entity)
 {
-	if (entity->cSpecialWeapon->fired) return;
+	if (!entity->cSpecialWeapon->canFire) return;
 
-	std::cout << "fire\n";
+	auto killingArea = m_entities.addEntity("EnemyKillingArea");
 
-	entity->cSpecialWeapon->fired = true;
-	entity->cSpecialWeapon->cooldownRemaining = entity->cSpecialWeapon->cooldown;
+	float radius = entity->cShape->circle.getRadius() * 4;
+
+	killingArea->cTransform = std::make_shared<CTransform>(Vec2(entity->cTransform->pos));
+	killingArea->cShape = std::make_shared<CShape>(radius, entity->cShape->circle.getPointCount(), sf::Color::Transparent, sf::Color::Cyan, m_bulletCfg.OT);
+	killingArea->cCollider = std::make_shared<CCollider>(radius);
+	killingArea->cLifespan = std::make_shared<CLifespan>(120);
+
+	entity->enemyKillingArea = killingArea;
+
+	entity->cSpecialWeapon->numberOfShots = entity->cShape->circle.getPointCount();
+	entity->cSpecialWeapon->fireDelay = 120.f / entity->cSpecialWeapon->numberOfShots;
+
+	entity->cSpecialWeapon->numberOfShotsRemaining = entity->cSpecialWeapon->numberOfShots;
+	entity->cSpecialWeapon->fireDelayRemaining = 0;
+
+	entity->cSpecialWeapon->canFire = false;
+	entity->cSpecialWeapon->firing = true;
 }
 
 //order

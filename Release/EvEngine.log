@@ -1,81 +1,17 @@
-﻿  CLifespan.h
-  Entity.cpp
-  EntityManager.cpp
-Z:\Learning\EvEngine\Utils.h(11,2): warning C4091: static : пропускается слева от "Utils", когда ни одна переменная не объявлена
-  Game.cpp
-Z:\Learning\EvEngine\Utils.h(11,2): warning C4091: static : пропускается слева от "Utils", когда ни одна переменная не объявлена
-Z:\Learning\EvEngine\Game.cpp(10,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-Z:\Learning\EvEngine\Game.cpp(206,64): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-Z:\Learning\EvEngine\Game.cpp(206,43): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-Z:\Learning\EvEngine\Game.cpp(232,18): warning C4244: =: преобразование "const float" в "sf::Uint8", возможна потеря данных
-Z:\Learning\EvEngine\Game.cpp(236,21): warning C4244: =: преобразование "const float" в "sf::Uint8", возможна потеря данных
-Z:\Learning\EvEngine\Game.cpp(372,82): warning C4244: аргумент: преобразование "T" в "float", возможна потеря данных
-          with
-          [
-              T=unsigned int
-          ]
-Z:\Learning\EvEngine\Game.cpp(372,56): warning C4244: аргумент: преобразование "T" в "float", возможна потеря данных
-          with
-          [
-              T=unsigned int
-          ]
-Z:\Learning\EvEngine\Game.cpp(379,35): warning C4244: инициализация: преобразование "int" в "float", возможна потеря данных
-Z:\Learning\EvEngine\Game.cpp(379,20): warning C4244: инициализация: преобразование "int" в "const float", возможна потеря данных
-Z:\Learning\EvEngine\Game.cpp(380,35): warning C4244: инициализация: преобразование "int" в "float", возможна потеря данных
-Z:\Learning\EvEngine\Game.cpp(380,20): warning C4244: инициализация: преобразование "int" в "const float", возможна потеря данных
-Z:\Learning\EvEngine\Game.cpp(382,67): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
-Z:\Learning\EvEngine\Game.cpp(382,50): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
-Z:\Learning\EvEngine\Game.cpp(382,39): warning C4244: инициализация: преобразование "int" в "float", возможна потеря данных
-Z:\Learning\EvEngine\Game.cpp(382,24): warning C4244: инициализация: преобразование "int" в "const float", возможна потеря данных
-Z:\Learning\EvEngine\Game.cpp(388,40): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-Z:\Learning\EvEngine\Game.cpp(433,23): warning C4018: <: несоответствие типов со знаком и без знака
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xutility(149,77): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\memory(2006): message : выполняется компиляция ссылки на экземпляр шаблон функции "void std::_Construct_in_place<_Ty,int&,int&,sf::Color&,sf::Color&,int&>(_Ty &,int &,int &,sf::Color &,sf::Color &,int &) noexcept(false)"
-          with
-          [
-              _Ty=CShape
-          ]
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\memory(2725): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<int&,int&,sf::Color&,sf::Color&,int&>(int &,int &,sf::Color &,sf::Color &,int &)"
-          with
-          [
-              _Ty=CShape
-          ]
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\memory(2726): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<int&,int&,sf::Color&,sf::Color&,int&>(int &,int &,sf::Color &,sf::Color &,int &)"
-          with
-          [
-              _Ty=CShape
-          ]
-Z:\Learning\EvEngine\Game.cpp(356): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::shared_ptr<CShape> std::make_shared<CShape,int&,int&,sf::Color&,sf::Color&,int&>(int &,int &,sf::Color &,sf::Color &,int &)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xutility(149,77): warning C4244: аргумент: преобразование "const int" в "float", возможна потеря данных
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\memory(2006): message : выполняется компиляция ссылки на экземпляр шаблон функции "void std::_Construct_in_place<_Ty,const int&>(_Ty &,const int &) noexcept(false)"
-          with
-          [
-              _Ty=CCollider
-          ]
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\memory(2725): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<const int&>(const int &)"
-          with
-          [
-              _Ty=CCollider
-          ]
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\memory(2726): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<const int&>(const int &)"
-          with
-          [
-              _Ty=CCollider
-          ]
-Z:\Learning\EvEngine\Game.cpp(410): message : выполняется компиляция ссылки на экземпляр шаблон функции "std::shared_ptr<CCollider> std::make_shared<CCollider,const int&>(const int &)"
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.31.31103\include\xutility(149,77): warning C4244: аргумент: преобразование "_Ty" в "float", возможна потеря данных
-          with
-          [
-              _Ty=int
-          ]
-  Utils.cpp
-Z:\Learning\EvEngine\Utils.h(11,2): warning C4091: static : пропускается слева от "Utils", когда ни одна переменная не объявлена
-Z:\Learning\EvEngine\Utils.cpp(11,13): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+﻿  Vec2.cpp
+D:\EvEngine\Vec2.cpp(23,27): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+D:\EvEngine\Vec2.cpp(23,17): warning C4244: инициализация: преобразование "double" в "const float", возможна потеря данных
+D:\EvEngine\Vec2.cpp(57,27): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+D:\EvEngine\Vec2.cpp(57,17): warning C4244: инициализация: преобразование "double" в "const float", возможна потеря данных
+D:\EvEngine\Vec2.cpp(70,27): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+D:\EvEngine\Vec2.cpp(70,17): warning C4244: инициализация: преобразование "double" в "const float", возможна потеря данных
   main.cpp
-Z:\Learning\EvEngine\Utils.h(11,2): warning C4091: static : пропускается слева от "Utils", когда ни одна переменная не объявлена
+D:\EvEngine\Utils.h(11,2): warning C4091: static : пропускается слева от "Utils", когда ни одна переменная не объявлена
   Создание кода
-  45 of 737 functions ( 6.1%) were compiled, the rest were copied from previous compilation.
-    28 functions were new in current compilation
-    106 functions had inline decision re-evaluated but remain unchanged
+D:\EvEngine\Vec2.cpp(74): warning C4172: возвращение адреса локальной или временной переменной
+D:\EvEngine\Vec2.cpp(46): warning C4172: возвращение адреса локальной или временной переменной
+  570 of 750 functions (76.0%) were compiled, the rest were copied from previous compilation.
+    7 functions were new in current compilation
+    22 functions had inline decision re-evaluated but remain unchanged
   Создание кода завершено
-  EvEngine.vcxproj -> Z:\Learning\EvEngine\Release\EvEngine.exe
+  EvEngine.vcxproj -> D:\EvEngine\Release\EvEngine.exe
