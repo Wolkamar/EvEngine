@@ -1,31 +1,51 @@
 #include "Vec2.h"
 
+const float PI = atanf(1.f) * 4.f;
+
+float deg(float radians)
+{
+	return radians * 180.f / PI;
+}
+float rad(float degrees)
+{
+	return degrees * PI / 180.f;
+}
+
 Vec2::Vec2(float xin, float yin)
 	: x(xin), y(yin) {}
 
 Vec2::Vec2(const Vec2& vector)
 	: x(vector.x), y(vector.y) {}
 
-float Vec2::distTo(Vec2 target)
+float Vec2::distTo(Vec2 target) const
 {
 	Vec2 diff = target - *this;
 	return diff.length();
 }
 
-float Vec2::sqDistTo(Vec2 target)
+float Vec2::sqDistTo(Vec2 target) const
 {
 	Vec2 diff = target - *this;
 	return (powf(diff.x, 2) + powf(diff.y, 2));
 }
 
-float Vec2::angleTo(const Vec2& target)
+float Vec2::angleTo(const Vec2& target) const
 {
-	const float pi = atan(1) * 4;
 	Vec2 diff = target - *this;
-	return -atan2f(diff.y, diff.x) * 180.f / pi;
+	return -(deg(atan2f(diff.y, diff.x)) + this->angle());
 }
 
-float Vec2::length()
+float Vec2::angle() const
+{
+	return deg(-atan2f(y, x));
+}
+
+float Vec2::angleBetween(const Vec2& target) const
+{
+	return target.angle() - this->angle();
+}
+
+float Vec2::length() const
 {
 	return sqrtf(powf(x, 2) + powf(y, 2));
 }
@@ -40,7 +60,7 @@ void Vec2::normalize()
 	}
 }
 
-const Vec2& Vec2::normalized()
+const Vec2& Vec2::normalized() const
 {
 	float len = length();
 	return Vec2(x / len, y / len);
@@ -54,9 +74,8 @@ void Vec2::print() const
 //rotating
 Vec2& Vec2::rotateByDegrees(float degrees)
 {
-	const float pi = atan(1) * 4;
-	float newX = cos(-degrees * pi / 180.f) * x - sin(-degrees * pi / 180.f) * y;
-	float newY = sin(-degrees * pi / 180.f) * x + cos(-degrees * pi / 180.f) * y;
+	float newX = cosf(rad(-degrees)) * x - sinf(rad(-degrees)) * y;
+	float newY = sinf(rad(-degrees)) * x + cosf(rad(-degrees)) * y;
 	//bug
 
 	x = newX;
@@ -65,11 +84,10 @@ Vec2& Vec2::rotateByDegrees(float degrees)
 	return *this;
 }
 
-const Vec2& Vec2::rotatedByDegrees(float degrees)
+const Vec2& Vec2::rotatedByDegrees(float degrees) const
 {
-	const float pi = atan(1) * 4;
-	float newX = cos(-degrees * pi / 180.f) * x - sin(-degrees * pi / 180.f) * y;
-	float newY = sin(-degrees * pi / 180.f) * x + cos(-degrees * pi / 180.f) * y;
+	float newX = cosf(rad(-degrees)) * x - sinf(rad(-degrees)) * y;
+	float newY = sinf(rad(-degrees)) * x + cosf(rad(-degrees)) * y;
 
 	return Vec2(newX, newY);
 }
@@ -194,3 +212,15 @@ bool Vec2::operator != (const Vec2& rhs) const
 	return x != rhs.x || y != rhs.y;
 }
 //----------------------------------------
+
+Vec2& Vec2::fromAngle(float angle)
+{
+	Vec2 vector = Vec2(cosf(rad(-angle)), sinf(rad(-angle)));
+	return vector;
+}
+
+Vec2& Vec2::fromAngle(float angle, float length)
+{
+	Vec2 vector = Vec2(length * cosf(rad(-angle)), length * sinf(rad(-angle)));
+	return vector;
+}

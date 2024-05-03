@@ -13,21 +13,23 @@ public:
 	Vec2(float xin, float yin);
 	Vec2(const Vec2& vector);
 
-	float distTo(Vec2 target); // get distance vector from this to target vector
-	float sqDistTo(Vec2 target); // get squared distance vector from this to target vector
+	float distTo(Vec2 target)					const;	// get distance vector from this to target vector
+	float sqDistTo(Vec2 target)					const;	// get squared distance vector from this to target vector
 
-	float angleTo(const Vec2& target); // get this vector angle to target vector)
+	float angleTo(const Vec2& target)			const;	// get direction vector angle from this vector to target vector
+	float angle()								const;	// get this vector angle relative to world right direction
+	float angleBetween(const Vec2& target)		const;	// get angle between this vector and target vector (clockwise)
 
-	float length(); // get vector length
+	float length()								const;	// get vector length
 
-	void normalize(); // NORMALIZE this vector
+	void normalize();									// NORMALIZE this vector
 
-	const Vec2& normalized(); // get NORMALIZED copy of this vector
+	const Vec2& normalized()					const;	// get NORMALIZED copy of this vector
 
 	void print() const;
 
-	Vec2& rotateByDegrees(float degrees); // ROTATE this vector
-	const Vec2& rotatedByDegrees(float degrees); // get ROTATED copy of this vector
+	Vec2& rotateByDegrees(float degrees);				// ROTATE this vector (clockwise)
+	const Vec2& rotatedByDegrees(float degrees) const;	// get ROTATED copy of this vector (clockwise)
 
 	Vec2& scaleByVector	(const Vec2& vector);
 	Vec2& scale			(float scale);
@@ -56,4 +58,7 @@ public:
 
 	bool operator ==	(const Vec2& rhs)	const;
 	bool operator !=	(const Vec2& rhs)	const;
+
+	static Vec2& fromAngle(float angle);
+	static Vec2& fromAngle(float angle, float length);
 };
